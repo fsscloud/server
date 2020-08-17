@@ -35,6 +35,8 @@ use OCP\IUserManager;
 use OCP\Http\Client\IClientService;
 use OCP\ICacheFactory;
 
+use OCA\WeatherStatus\AppInfo\Application;
+
 /**
  * Class StatusService
  *
@@ -66,7 +68,7 @@ class WeatherStatusService {
 		$this->accountManager = $accountManager;
 		$this->userManager = $userManager;
 		$this->appManager = $appManager;
-		$this->version = $appManager->getAppVersion('weather_status');
+		$this->version = $appManager->getAppVersion(Application::APP_ID);
 		$this->clientService = $clientService;
 		$this->client = $clientService->newClient();
 		if ($cacheFactory->isAvailable()) {

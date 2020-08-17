@@ -12,7 +12,6 @@ __webpack_nonce__ = btoa(getRequestToken())
 __webpack_public_path__ = OC.linkTo('weather_status', 'js/')
 
 Vue.prototype.t = t
-Vue.prototype.$t = t
 
 document.addEventListener('DOMContentLoaded', function() {
 	if (!OCA.Dashboard) {

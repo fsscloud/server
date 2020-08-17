@@ -20,7 +20,7 @@
   -->
 
 <template>
-	<li :class="{inline: inline }">
+	<li :class="{ inline }">
 		<div id="weather-status-menu-item">
 			<Actions
 				id="weather-status-menu-item__subheader"
@@ -38,7 +38,7 @@
 					icon="icon-crosshair"
 					:close-after-click="true"
 					@click="onBrowserLocationClick">
-					{{ $t('weather_status', 'Detect location') }}
+					{{ t('weather_status', 'Detect locations') }}
 				</ActionButton>
 				<ActionInput
 					ref="addressInput"
@@ -47,7 +47,7 @@
 					type="text"
 					value=""
 					@submit="onAddressSubmit">
-					{{ $t('weather_status', 'Set custom address') }}
+					{{ t('weather_status', 'Set custom address') }}
 				</ActionInput>
 			</Actions>
 		</div>
@@ -62,6 +62,72 @@ import * as network from './services/weatherStatusService'
 
 const MODE_BROWSER_LOCATION = 1
 const MODE_MANUAL_LOCATION = 2
+const weatherOptions = {
+	clearsky_day: {
+		icon: 'icon-clearsky-day',
+		text: t('weather_status', 'Clear sky'),
+	},
+	clearsky_night: {
+		icon: 'icon-clearsky-night',
+		text: t('weather_status', 'Clear sky'),
+	},
+	cloudy: {
+		icon: 'icon-cloudy',
+		text: t('weather_status', 'Cloudy'),
+	},
+	fair_day: {
+		icon: 'icon-fair-day',
+		text: t('weather_status', 'Fair day'),
+	},
+	fair_night: {
+		icon: 'icon-fair-night',
+		text: t('weather_status', 'Fair night'),
+	},
+	partlycloudy_day: {
+		icon: 'icon-partlycloudy-day',
+		text: t('weather_status', 'Partly cloudy'),
+	},
+	partlycloudy_night: {
+		icon: 'icon-partlycloudy-night',
+		text: t('weather_status', 'Partly cloudy'),
+	},
+	fog: {
+		icon: 'icon-fog',
+		text: t('weather_status', 'Foggy'),
+	},
+	lightrain: {
+		icon: 'icon-lightrain',
+		text: t('weather_status', 'Light rain'),
+	},
+	rain: {
+		icon: 'icon-rain',
+		text: t('weather_status', 'Rain'),
+	},
+	rainshowers_day: {
+		icon: 'icon-rainshowers-day',
+		text: t('weather_status', 'Rain showers'),
+	},
+	rainshowers_night: {
+		icon: 'icon-rainshowers-night',
+		text: t('weather_status', 'Rain showers'),
+	},
+	lightrainshowers_day: {
+		icon: 'icon-light-rainshowers-day',
+		text: t('weather_status', 'Light rain showers'),
+	},
+	lightrainshowers_night: {
+		icon: 'icon-light-rainshowers-night',
+		text: t('weather_status', 'Light rain showers'),
+	},
+	heavyrainshowers_day: {
+		icon: 'icon-heavy-rainshowers-day',
+		text: t('weather_status', 'Heavy rain showers'),
+	},
+	heavyrainshowers_night: {
+		icon: 'icon-heavy-rainshowers-night',
+		text: t('weather_status', 'Heavy rain showers'),
+	},
+}
 
 export default {
 	name: 'App',
@@ -84,49 +150,11 @@ export default {
 			lon: null,
 			forecasts: [],
 			loop: null,
-			icons: {
-				clearsky_day: 'icon-clearsky-day',
-				clearsky_night: 'icon-clearsky-night',
-				cloudy: 'icon-cloudy',
-				fair_day: 'icon-fair-day',
-				fair_night: 'icon-fair-night',
-				partlycloudy_day: 'icon-partlycloudy-day',
-				partlycloudy_night: 'icon-partlycloudy-night',
-				fog: 'icon-fog',
-				lightrain: 'icon-lightrain',
-				rain: 'icon-rain',
-				rainshowers_day: 'icon-rainshowers-day',
-				rainshowers_night: 'icon-rainshowers-night',
-				lightrainshowers_day: 'icon-light-rainshowers-day',
-				lightrainshowers_night: 'icon-light-rainshowers-night',
-				heavyrainshowers_day: 'icon-heavy-rainshowers-day',
-				heavyrainshowers_night: 'icon-heavy-rainshowers-night',
-			},
 		}
 	},
 	computed: {
-		texts() {
-			return {
-				clearsky_day: this.$t('weather_status', 'Clear sky'),
-				clearsky_night: this.$t('weather_status', 'Clear sky'),
-				cloudy: this.$t('weather_status', 'Cloudy'),
-				fair_day: this.$t('weather_status', 'Fair day'),
-				fair_night: this.$t('weather_status', 'Fair night'),
-				partlycloudy_day: this.$t('weather_status', 'Partly cloudy'),
-				partlycloudy_night: this.$t('weather_status', 'Partly cloudy'),
-				fog: this.$t('weather_status', 'Foggy'),
-				lightrain: this.$t('weather_status', 'Light rain'),
-				rain: this.$t('weather_status', 'Rain'),
-				rainshowers_day: this.$t('weather_status', 'Rain showers'),
-				rainshowers_night: this.$t('weather_status', 'Rain showers'),
-				lightrainshowers_day: this.$t('weather_status', 'Light rain showers'),
-				lightrainshowers_night: this.$t('weather_status', 'Light rain showers'),
-				heavyrainshowers_day: this.$t('weather_status', 'Heavy rain showers'),
-				heavyrainshowers_night: this.$t('weather_status', 'Heavy rain showers'),
-			}
-		},
 		locationText() {
-			return this.$t('weather_status', 'More weather for {adr}', { adr: this.address })
+			return t('weather_status', 'More weather for {adr}', { adr: this.address })
 		},
 		sixHoursTempForecast() {
 			return this.forecasts.length > 5 ? this.forecasts[5].data.instant.details.air_temperature : ''
@@ -137,7 +165,7 @@ export default {
 		sixHoursFormattedTime() {
 			if (this.forecasts.length > 5) {
 				const date = moment(this.forecasts[5].time)
-				return this.$t('weather_status', 'at {time}', { time: date.format('LT') })
+				return t('weather_status', 'at {time}', { time: date.format('LT') })
 			}
 			return ''
 		},
@@ -145,12 +173,14 @@ export default {
 			if (this.loading) {
 				return 'icon-loading-small'
 			} else {
-				return this.sixHoursWeatherForecast ? this.icons[this.sixHoursWeatherForecast] : 'icon-fair-day'
+				return this.sixHoursWeatherForecast
+					? weatherOptions[this.sixHoursWeatherForecast].icon
+					: 'icon-fair-day'
 			}
 		},
 		weatherText() {
 			return this.sixHoursWeatherForecast
-				? this.texts[this.sixHoursWeatherForecast] + ' ' + this.sixHoursFormattedTime
+				? weatherOptions[this.sixHoursWeatherForecast].text + ' ' + this.sixHoursFormattedTime
 				: '???'
 		},
 		/**
@@ -160,13 +190,13 @@ export default {
 		 */
 		visibleMessage() {
 			if (this.loading) {
-				return this.$t('weather_status', 'Loading weather')
+				return t('weather_status', 'Loading weather')
 			} else if (this.errorMessage) {
 				return this.errorMessage
 			} else {
 				return this.sixHoursWeatherForecast
 					? this.sixHoursTempForecast + '° ' + this.weatherText
-					: this.$t('weather_status', 'Set location for weather')
+					: t('weather_status', 'Set location for weather')
 			}
 		},
 		weatherLinkTarget() {
@@ -191,7 +221,7 @@ export default {
 					this.startLoop()
 				}
 			} catch (err) {
-				showError(this.$t('weather_status', 'There was an error getting the weather status information.'))
+				showError(t('weather_status', 'There was an error getting the weather status information.'))
 				console.debug(err)
 			}
 		},
@@ -239,7 +269,7 @@ export default {
 			try {
 				this.forecasts = await network.fetchForecast()
 			} catch (err) {
-				this.errorMessage = this.$t('weather_status', 'No weather information found')
+				this.errorMessage = t('weather_status', 'No weather information found')
 				console.debug(err)
 			}
 			this.loading = false
@@ -256,11 +286,11 @@ export default {
 					this.mode = MODE_MANUAL_LOCATION
 					this.startLoop()
 				} else {
-					this.errorMessage = this.$t('weather_status', 'Location not found')
+					this.errorMessage = t('weather_status', 'Location not found')
 					this.loading = false
 				}
 			} catch (err) {
-				showError(this.$t('weather_status', 'There was an error setting the location address.'))
+				showError(t('weather_status', 'There was an error setting the location address.'))
 				console.debug(err)
 				this.loading = false
 			}
@@ -271,7 +301,7 @@ export default {
 				this.address = loc.address
 				this.startLoop()
 			} catch (err) {
-				showError(this.$t('weather_status', 'There was an error setting the location.'))
+				showError(t('weather_status', 'There was an error setting the location.'))
 				console.debug(err)
 			}
 		},
@@ -279,7 +309,7 @@ export default {
 			try {
 				await network.setMode(mode)
 			} catch (err) {
-				showError(this.$t('weather_status', 'There was an error saving the mode.'))
+				showError(t('weather_status', 'There was an error saving the mode.'))
 				console.debug(err)
 			}
 		},
@@ -296,7 +326,7 @@ export default {
 				this.mode = MODE_MANUAL_LOCATION
 				this.startLoop()
 			} catch (err) {
-				showError(this.$t('weather_status', 'There was an error using personal address.'))
+				showError(t('weather_status', 'There was an error using personal address.'))
 				console.debug(err)
 				this.loading = false
 			}
