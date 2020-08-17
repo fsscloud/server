@@ -519,7 +519,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$dispatcher->dispatchTyped(new BeforeUserCreatedEvent($uid, $password));
 			});
 			$userSession->listen('\OC\User', 'postCreateUser', function ($user, $password) {
-				/** @var $user \OC\User\User */
+				/** @var \OC\User\User $user */
 				\OC_Hook::emit('OC_User', 'post_createUser', ['uid' => $user->getUID(), 'password' => $password]);
 
 				/** @var IEventDispatcher $dispatcher */
@@ -527,7 +527,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$dispatcher->dispatchTyped(new UserCreatedEvent($user, $password));
 			});
 			$userSession->listen('\OC\User', 'preDelete', function ($user) use ($legacyDispatcher) {
-				/** @var $user \OC\User\User */
+				/** @var \OC\User\User $user */
 				\OC_Hook::emit('OC_User', 'pre_deleteUser', ['run' => true, 'uid' => $user->getUID()]);
 				$legacyDispatcher->dispatch('OCP\IUser::preDelete', new GenericEvent($user));
 
@@ -536,7 +536,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$dispatcher->dispatchTyped(new BeforeUserDeletedEvent($user));
 			});
 			$userSession->listen('\OC\User', 'postDelete', function ($user) {
-				/** @var $user \OC\User\User */
+				/** @var \OC\User\User $user */
 				\OC_Hook::emit('OC_User', 'post_deleteUser', ['uid' => $user->getUID()]);
 
 				/** @var IEventDispatcher $dispatcher */
@@ -544,7 +544,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$dispatcher->dispatchTyped(new UserDeletedEvent($user));
 			});
 			$userSession->listen('\OC\User', 'preSetPassword', function ($user, $password, $recoveryPassword) {
-				/** @var $user \OC\User\User */
+				/** @var \OC\User\User $user */
 				\OC_Hook::emit('OC_User', 'pre_setPassword', ['run' => true, 'uid' => $user->getUID(), 'password' => $password, 'recoveryPassword' => $recoveryPassword]);
 
 				/** @var IEventDispatcher $dispatcher */
@@ -552,7 +552,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$dispatcher->dispatchTyped(new BeforePasswordUpdatedEvent($user, $password, $recoveryPassword));
 			});
 			$userSession->listen('\OC\User', 'postSetPassword', function ($user, $password, $recoveryPassword) {
-				/** @var $user \OC\User\User */
+				/** @var \OC\User\User $user */
 				\OC_Hook::emit('OC_User', 'post_setPassword', ['run' => true, 'uid' => $user->getUID(), 'password' => $password, 'recoveryPassword' => $recoveryPassword]);
 
 				/** @var IEventDispatcher $dispatcher */
@@ -567,7 +567,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$dispatcher->dispatchTyped(new BeforeUserLoggedInEvent($uid, $password));
 			});
 			$userSession->listen('\OC\User', 'postLogin', function ($user, $password, $isTokenLogin) {
-				/** @var $user \OC\User\User */
+				/** @var \OC\User\User $user */
 				\OC_Hook::emit('OC_User', 'post_login', ['run' => true, 'uid' => $user->getUID(), 'password' => $password, 'isTokenLogin' => $isTokenLogin]);
 
 				/** @var IEventDispatcher $dispatcher */
@@ -580,7 +580,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$dispatcher->dispatchTyped(new BeforeUserLoggedInWithCookieEvent($uid));
 			});
 			$userSession->listen('\OC\User', 'postRememberedLogin', function ($user, $password) {
-				/** @var $user \OC\User\User */
+				/** @var \OC\User\User $user */
 				\OC_Hook::emit('OC_User', 'post_login', ['run' => true, 'uid' => $user->getUID(), 'password' => $password]);
 
 				/** @var IEventDispatcher $dispatcher */
@@ -600,7 +600,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$dispatcher->dispatchTyped(new UserLoggedOutEvent($user));
 			});
 			$userSession->listen('\OC\User', 'changeUser', function ($user, $feature, $value, $oldValue) {
-				/** @var $user \OC\User\User */
+				/** @var \OC\User\User $user */
 				\OC_Hook::emit('OC_User', 'changeUser', ['run' => true, 'user' => $user, 'feature' => $feature, 'value' => $value, 'old_value' => $oldValue]);
 
 				/** @var IEventDispatcher $dispatcher */

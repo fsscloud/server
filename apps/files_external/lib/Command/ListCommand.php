@@ -98,14 +98,12 @@ class ListCommand extends Base {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if ($input->getOption('all')) {
-			/** @var  $mounts StorageConfig[] */
 			$mounts = $this->globalService->getStorageForAllUsers();
 			$userId = self::ALL;
 		} else {
 			$userId = $input->getArgument('user_id');
 			$storageService = $this->getStorageService($userId);
 
-			/** @var  $mounts StorageConfig[] */
 			$mounts = $storageService->getAllStorages();
 		}
 
@@ -114,7 +112,7 @@ class ListCommand extends Base {
 	}
 
 	/**
-	 * @param $userId $userId
+	 * @param $userId
 	 * @param StorageConfig[] $mounts
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
