@@ -1,5 +1,8 @@
 # FSS Cloud Server ☁
 
+FSS Cloud is a fork from the NextCloud project and is looking to focus the project on the File Sync and share. Once the needed goals are acomplished; we might look at reverse merge with the NextCloud project if the team likes our contributions.
+
+
 Otherwise, git checkouts can be handled the same as release archives, by using the `stable*` branches. Note they should never be used on production systems.
 
 
